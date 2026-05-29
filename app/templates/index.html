@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ app_title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body data-initial-mode="{{ initial_mode }}">
+  <div class="page-noise"></div>
+
+  <main class="shell">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <span class="eyebrow">Cemantix en français • fastText • SQLite</span>
+        <h1>{{ app_title }}</h1>
+        <p class="hero-text">
+          Une vraie application de jeu sémantique en français: moteur fastText, whitelist lexicale, modes daily et infinite,
+          mode custom dev, indices progressifs, stats persistantes et leaderboard.
+        </p>
+        <div class="mode-switch" id="modeSwitch">
+          <button class="mode-pill" data-mode="daily">Daily</button>
+          <button class="mode-pill" data-mode="infinite">Infinite</button>
+          <button class="mode-pill" data-mode="custom">Custom dev</button>
+        </div>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric warm">
+          <span class="metric-label">Mode</span>
+          <strong id="currentModeLabel">daily</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Mot masqué</span>
+          <strong id="secretMask">?</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Essais</span>
+          <strong id="guessCount">0</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Moteur</span>
+          <strong id="engineLabel">fasttext</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="control-grid">
+      <article class="panel stack">
+        <div class="panel-head">
+          <div>
+            <h2>Profil</h2>
+            <p>Ton pseudo est utilisé pour le leaderboard.</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <input id="displayNameInput" type="text" maxlength="24" placeholder="Votre pseudo" />
+          <button id="saveProfileBtn" class="secondary">Enregistrer</button>
+        </div>
+        <div class="custom-row" id="customRow">
+          <input id="customSecretInput" type="text" placeholder="Mot secret pour le mode custom dev" />
+          <button id="startCustomBtn" class="secondary">Démarrer</button>
+        </div>
+      </article>
+
+      <article class="panel stack">
+        <div class="panel-head">
+          <div>
+            <h2>Partie</h2>
+            <p id="gameMeta">Charge la partie en cours.</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <input id="guessInput" type="text" autocomplete="off" placeholder="Propose un mot français..." />
+          <button id="guessBtn" class="primary">Tester</button>
+        </div>
+        <div class="action-row">
+          <button id="hintBtn" class="secondary">Indice</button>
+          <button id="newGameBtn" class="ghost">Nouvelle partie</button>
+          <button id="shareBtn" class="ghost">Partager</button>
+        </div>
+        <p id="messageBox" class="message"></p>
+      </article>
+
+      <article class="panel stack">
+        <div class="panel-head">
+          <div>
+            <h2>Vue rapide</h2>
+            <p>Résumé global et qualité de progression.</p>
+          </div>
+        </div>
+        <div class="stat-grid" id="statGrid"></div>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel stack">
+        <div class="panel-head">
+          <div>
+            <h2>Indices</h2>
+            <p>Progressifs et persistants par partie.</p>
+          </div>
+          <span class="chip" id="hintCounter">0 / 0</span>
+        </div>
+        <ul id="hintList" class="item-list"></ul>
+      </article>
+
+      <article class="panel stack">
+        <div class="panel-head">
+          <div>
+            <h2>Leaderboard</h2>
+            <p id="leaderboardMeta">Top des meilleurs runs.</p>
+          </div>
+        </div>
+        <div id="leaderboardList" class="leaderboard-list"></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Tentatives</h2>
+          <p>Triées par score sémantique décroissant.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Essai</th>
+              <th>Mot</th>
+              <th>Score</th>
+              <th>Rang</th>
+              <th>Percentile</th>
+              <th>Température</th>
+            </tr>
+          </thead>
+          <tbody id="guessTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <template id="guessRowTemplate">
+    <tr>
+      <td class="mono attempt"></td>
+      <td class="word"></td>
+      <td class="mono score"></td>
+      <td class="mono rank"></td>
+      <td class="mono percentile"></td>
+      <td><span class="temperature"></span></td>
+    </tr>
+  </template>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
