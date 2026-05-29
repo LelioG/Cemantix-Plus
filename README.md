@@ -40,9 +40,10 @@ cemantix_plus/
 │       ├── app.js
 │       └── style.css
 ├── data/
-│   ├── model/cc.fr.300.bin
 │   ├── demo_lexicon.json
-│   └── sources/top-open-subtitles-sentences/...
+│   ├── model/cc.fr.300.bin                         # via Google Drive
+│   ├── lexicon/...                                  # via Google Drive
+│   └── sources/top-open-subtitles-sentences/...     # via Google Drive
 ├── migrations/
 ├── scripts/
 │   ├── init_db.py
@@ -63,12 +64,13 @@ Par défaut, l’application utilise le modèle fastText français présent dans
 
 `data/model/cc.fr.300.bin`
 
-Le dossier du modèle complet n’est pas versionné dans ce dépôt car il est trop volumineux.
+Le dépôt contient seulement `data/demo_lexicon.json`, utilisé pour le mode démo.
+Le dossier `data/` complet n’est pas versionné car il est trop volumineux.
 Il peut être téléchargé ici:
 
 https://drive.google.com/drive/folders/1dydjO0r1Dlwx3DlgPeRhCq8i8wHSvrlk?usp=sharing
 
-Après téléchargement, placer le contenu du dossier dans `data/model/`.
+Après téléchargement, remplacer ou compléter le dossier `data/` à la racine du projet.
 
 Le score d’une proposition est calculé via cosinus entre le vecteur du mot proposé et le vecteur du mot secret.
 
@@ -85,7 +87,7 @@ Le cache généré est écrit dans:
 
 ### Fallback dev
 
-Si le modèle fastText manque ou si `CEMANTIX_ENGINE_MODE=demo`, l’application bascule sur le mini lexique `data/demo_lexicon.json`.
+Si le modèle fastText manque ou si `CEMANTIX_ENGINE_MODE=demo`, l’application bascule sur le mini lexique `data/demo_lexicon.json`, qui est inclus dans le dépôt.
 
 ## Base de données
 
@@ -111,19 +113,19 @@ cd /home/lgualino/Documents/cemantix_plus
 pip install -r requirements.txt
 ```
 
-### Modèle fastText
+### Données et modèle fastText
 
-Pour utiliser le moteur sémantique complet, télécharger le dossier du modèle depuis Google Drive:
+Pour utiliser le moteur sémantique complet, télécharger le dossier `data/` depuis Google Drive:
 
 https://drive.google.com/drive/folders/1dydjO0r1Dlwx3DlgPeRhCq8i8wHSvrlk?usp=sharing
 
-Puis placer son contenu dans ce dossier:
+Puis placer ce dossier à la racine du projet:
 
 ```text
-data/model/
+data/
 ```
 
-Sans ce modèle, l’application peut démarrer en mode démo avec `CEMANTIX_ENGINE_MODE=demo`.
+Sans le dossier `data/` complet, seule la version démo fonctionne avec `CEMANTIX_ENGINE_MODE=demo`.
 
 ## Initialisation
 
